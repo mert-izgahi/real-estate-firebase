@@ -1,29 +1,26 @@
-import { Box, Button, Container, Flex, Text } from "@mantine/core";
+import { Button, Container, Flex, Text } from "@mantine/core";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
     <Container h={60} size="xl" component="header">
       <Flex align="center" justify="space-between">
-        <Text
-          component={Link}
-          to="/"
-          fw="bold"
-          style={{ fontSize: 24, color: "var(--mantine-color-dark-9)" }}
-        >
+        <Text component={Link} to="/" fw="bold" className="brand">
           Real-Estate
         </Text>
 
-        <Flex align={"center"} gap="md">
-          <Text component={Link} to="/">
+        <Flex align={"center"} gap="md" h={60}>
+          <Text component={NavLink} to="/" className="nav-link">
             Home
           </Text>
-          <Text component={Link} to="/about">
+          <Text component={NavLink} to="/about" className="nav-link">
             About
           </Text>
 
-          <Button component={Link} to="/login">Login</Button>
+          <Button component={Link} to="/auth">
+            Login
+          </Button>
         </Flex>
       </Flex>
     </Container>
