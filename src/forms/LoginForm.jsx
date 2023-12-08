@@ -9,9 +9,13 @@ import {
   Anchor,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import React from "react";
-
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { auth, db } from "../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 const LoginForm = () => {
+  const [isPending, setIsPending] = useState(false);
   const form = useForm({
     initialValues: {
       email: "",
@@ -27,8 +31,37 @@ const LoginForm = () => {
     },
   });
 
-  const handleSubmit = (values) => {
-    console.log(values);
+  const handleSubmit = async (values) => {
+    try {
+      const { email, password } = values;
+
+      setIsPending(true);
+
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      const user = userCredential.user;
+
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+
+      if (userDoc.exists()) {
+        const args = {
+          ...userDoc.data(),
+          id: user.uid,
+        };
+        localStorage.setItem("user", JSON.stringify(args));
+      }
+
+      toast.success("Logged in successfully");
+
+      setIsPending(false);
+    } catch (error) {
+      toast.error(error.message);
+      setIsPending(false);
+    }
   };
   return (
     <Box component="form">
@@ -59,7 +92,12 @@ const LoginForm = () => {
         <Anchor href="#">Forgot password?</Anchor>
       </Flex>
 
-      <Button fullWidth type="submit" onClick={form.onSubmit(handleSubmit)}>
+      <Button
+        loading={isPending}
+        fullWidth
+        type="submit"
+        onClick={form.onSubmit(handleSubmit)}
+      >
         Login
       </Button>
     </Box>

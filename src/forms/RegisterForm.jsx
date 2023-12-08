@@ -10,7 +10,7 @@ import { useForm } from "@mantine/form";
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase";
-import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 import toast from "react-hot-toast";
 const RegisterForm = () => {
@@ -64,6 +64,16 @@ const RegisterForm = () => {
       });
 
       toast.success("Account created successfully");
+
+      // save user to localStorage
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (userDoc.exists()) {
+        const args = {
+          ...userDoc.data(),
+          id: user.uid,
+        };
+        localStorage.setItem("user", JSON.stringify(args));
+      }
 
       setIsPending(false);
     } catch (error) {
