@@ -14,7 +14,10 @@ import toast from "react-hot-toast";
 import { auth, db } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import { useAppContext } from "../AppContext";
+import { Link } from "react-router-dom";
 const LoginForm = () => {
+  const { loginReducer } = useAppContext();
   const [isPending, setIsPending] = useState(false);
   const form = useForm({
     initialValues: {
@@ -53,6 +56,7 @@ const LoginForm = () => {
           id: user.uid,
         };
         localStorage.setItem("user", JSON.stringify(args));
+        loginReducer(args);
       }
 
       toast.success("Logged in successfully");
@@ -89,7 +93,9 @@ const LoginForm = () => {
       />
 
       <Flex align="center" justify="flex-end" mb="md">
-        <Anchor href="#">Forgot password?</Anchor>
+        <Anchor component={Link} to="/reset-password">
+          Forgot password?
+        </Anchor>
       </Flex>
 
       <Button

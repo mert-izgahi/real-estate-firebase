@@ -1,8 +1,11 @@
 import { Button, Container, Flex, Text } from "@mantine/core";
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useAppContext } from "../AppContext";
 
 const Header = () => {
+  const { isAuthenticated, logoutReducer, isLoading } = useAppContext();
+
   return (
     <Container h={60} size="xl" component="header">
       <Flex align="center" justify="space-between">
@@ -18,9 +21,17 @@ const Header = () => {
             About
           </Text>
 
-          <Button component={Link} to="/auth">
-            Login
-          </Button>
+          {!isAuthenticated && (
+            <Button component={Link} to="/auth">
+              Login
+            </Button>
+          )}
+
+          {isAuthenticated && (
+            <Button variant="outline" loading={isLoading} onClick={logoutReducer}>
+              Logout
+            </Button>
+          )}
         </Flex>
       </Flex>
     </Container>

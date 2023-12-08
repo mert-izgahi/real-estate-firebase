@@ -14,8 +14,10 @@ import {
   setDoc,
 } from "firebase/firestore";
 import toast from "react-hot-toast";
+import { useAppContext } from "../AppContext";
 
 const GoogleAuthProvider = () => {
+  const { loginReducer } = useAppContext();
   const onAuth = async () => {
     const provider = new GoogleProvider();
 
@@ -47,6 +49,7 @@ const GoogleAuthProvider = () => {
             id: user.uid,
           };
           localStorage.setItem("user", JSON.stringify(args));
+          loginReducer(args);
         }
       })
       .catch((error) => {

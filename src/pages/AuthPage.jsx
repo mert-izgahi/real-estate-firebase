@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../layout";
 import {
   AspectRatio,
@@ -14,8 +14,15 @@ import LoginForm from "../forms/LoginForm";
 import { useToggle } from "@mantine/hooks";
 import RegisterForm from "../forms/RegisterForm";
 import GoogleAuthProvider from "../components/GoogleAuthProvider";
+import { useNavigate } from "react-router-dom";
 const AuthPage = () => {
   const [isMember, toggle] = useToggle([true, false]);
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    
+  })
 
   return (
     <Layout>

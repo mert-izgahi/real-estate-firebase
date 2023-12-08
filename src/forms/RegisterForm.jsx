@@ -10,12 +10,19 @@ import { useForm } from "@mantine/form";
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase";
-import { collection, doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 import toast from "react-hot-toast";
+import { useAppContext } from "../AppContext";
 const RegisterForm = () => {
   const [isPending, setIsPending] = useState(false);
-
+  const { loginReducer } = useAppContext();
   const form = useForm({
     initialValues: {
       fullName: "",
@@ -73,6 +80,7 @@ const RegisterForm = () => {
           id: user.uid,
         };
         localStorage.setItem("user", JSON.stringify(args));
+        loginReducer(args);
       }
 
       setIsPending(false);
