@@ -7,9 +7,15 @@ import {
   Button,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import React from "react";
-
+import React, { useState } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../firebase";
+import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { updateProfile } from "firebase/auth";
+import toast from "react-hot-toast";
 const RegisterForm = () => {
+  const [isPending, setIsPending] = useState(false);
+
   const form = useForm({
     initialValues: {
       fullName: "",
@@ -31,8 +37,39 @@ const RegisterForm = () => {
     },
   });
 
-  const handleSubmit = (values) => {
-    console.log(values);
+  const handleSubmit = async (values) => {
+    try {
+      setIsPending(true);
+      const { fullName, email, password } = values;
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      const user = await userCredential.user;
+
+      // update user display name
+      await updateProfile(user, {
+        displayName: fullName,
+      });
+      // save user to firestore
+      const usersCollection = collection(db, "users");
+
+      const createdAt = serverTimestamp();
+      await setDoc(doc(usersCollection, user.uid), {
+        fullName,
+        email,
+        createdAt,
+      });
+
+      toast.success("Account created successfully");
+
+      setIsPending(false);
+    } catch (error) {
+      toast.error(error.message);
+      setIsPending(false);
+    }
   };
   return (
     <Box component="form">
@@ -75,7 +112,13 @@ const RegisterForm = () => {
         description="Must include at least 6 characters, same as password"
       />
 
-      <Button fullWidth type="submit" onClick={form.onSubmit(handleSubmit)}>
+      <Button
+        loading={isPending}
+        disabled={isPending}
+        fullWidth
+        type="submit"
+        onClick={form.onSubmit(handleSubmit)}
+      >
         Create Account
       </Button>
     </Box>
