@@ -47,6 +47,7 @@ const GoogleAuthProvider = () => {
           const args = {
             ...userDoc.data(),
             id: user.uid,
+            role: "user",
           };
           localStorage.setItem("user", JSON.stringify(args));
           loginReducer(args);

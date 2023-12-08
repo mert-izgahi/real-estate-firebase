@@ -33,9 +33,13 @@ const Header = () => {
 
           {isAuthenticated && (
             <>
+              <Text component={NavLink} to="/properties" className="nav-link">
+                Properties
+              </Text>
               <Text component={NavLink} to="/profile" className="nav-link">
                 Profile
               </Text>
+
               <Button variant="outline" loading={isLoading} onClick={onLogout}>
                 Logout
               </Button>

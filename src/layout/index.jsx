@@ -12,7 +12,7 @@ const Layout = ({ children }) => {
     <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
       <Toaster position="top-center" />
       <AppShell header={{ height: 60 }} navbar={{}}>
-        <AppShell.Header withBorder={false}>
+        <AppShell.Header withBorder={false} height={60} bg="gray.1">
           <Header />
         </AppShell.Header>
         <AppShell.Main>{children}</AppShell.Main>

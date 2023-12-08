@@ -54,6 +54,7 @@ const LoginForm = () => {
         const args = {
           ...userDoc.data(),
           id: user.uid,
+          role: user.role,
         };
         localStorage.setItem("user", JSON.stringify(args));
         loginReducer(args);
@@ -68,7 +69,7 @@ const LoginForm = () => {
     }
   };
   return (
-    <Box component="form">
+    <form noValidate onSubmit={form.onSubmit(handleSubmit)}>
       <Title order={3} ta="center" mb="md">
         Login to your account
       </Title>
@@ -106,7 +107,7 @@ const LoginForm = () => {
       >
         Login
       </Button>
-    </Box>
+    </form>
   );
 };
 

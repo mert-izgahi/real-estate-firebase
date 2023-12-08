@@ -1,4 +1,4 @@
-import { Button, Text, TextInput, Title } from "@mantine/core";
+import { Button, Text, TextInput, Textarea, Title } from "@mantine/core";
 import React, { useState } from "react";
 import { useAppContext } from "../AppContext";
 import { useForm } from "@mantine/form";
@@ -13,6 +13,8 @@ const ProfileForm = () => {
   const form = useForm({
     initialValues: {
       fullName: user?.fullName,
+      about: user.about || "",
+      address: "",
     },
 
     validate: {
@@ -24,7 +26,7 @@ const ProfileForm = () => {
   const handleSubmit = async (values) => {
     try {
       setIsPending(true);
-      const { fullName } = values;
+      const { fullName, about } = values;
 
       const userDoc = await getDoc(doc(db, "users", user.id));
 
@@ -33,6 +35,8 @@ const ProfileForm = () => {
           ...userDoc.data(),
           id: user.id,
           fullName,
+          about,
+          address
         };
         localStorage.setItem("user", JSON.stringify(args));
         updateProfile(user, {
@@ -52,13 +56,7 @@ const ProfileForm = () => {
     }
   };
   return (
-    <form onSubmit={form.onSubmit(handleSubmit)}>
-      <Title order={3} ta="center" mb="md">
-        Profile
-      </Title>
-      <Text ta="center" mb={"md"}>
-        Update your profile
-      </Text>
+    <form noValidate onSubmit={form.onSubmit(handleSubmit)}>
       <TextInput
         label="Full Name"
         description="Your full name"
@@ -68,6 +66,8 @@ const ProfileForm = () => {
         mb="md"
         {...form.getInputProps("fullName")}
       />
+      <Textarea label="About" {...form.getInputProps("about")} mb="md" />
+      <TextInput label="Address" {...form.getInputProps("address")} mb="md" />
       <Button loading={isPending} type="submit" fullWidth>
         Update
       </Button>

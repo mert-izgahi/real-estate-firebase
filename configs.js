@@ -8,4 +8,5 @@ export default {
     appId: "1:583985163951:web:b4a1d3e8e3c50f63e52e5a",
     measurementId: "G-23KDKDKJZ1",
   },
+  GOOGLE_API_KEY: "AIzaSyD-rNEWlD4Ep5ieAHRHbcWCYp_OhtlSnac",
 };

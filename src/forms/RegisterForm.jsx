@@ -68,6 +68,7 @@ const RegisterForm = () => {
         fullName,
         email,
         createdAt,
+        role: "user",
       });
 
       toast.success("Account created successfully");
@@ -90,7 +91,7 @@ const RegisterForm = () => {
     }
   };
   return (
-    <Box component="form">
+    <form noValidate onSubmit={form.onSubmit(handleSubmit)}>
       <Title order={3} ta="center" mb="md">
         Create an account
       </Title>
@@ -139,7 +140,7 @@ const RegisterForm = () => {
       >
         Create Account
       </Button>
-    </Box>
+    </form>
   );
 };
 

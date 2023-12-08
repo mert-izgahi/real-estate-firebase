@@ -6,6 +6,8 @@ import AuthPage from "./pages/AuthPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PropertiesPage from "./pages/properties/PropertiesPage";
+import NewPropertyPage from "./pages/properties/NewPropertyPage";
 
 const App = () => {
   return (
@@ -23,6 +25,15 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/new-property"
+          element={
+            <ProtectedRoute>
+              <NewPropertyPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/properties" element={<PropertiesPage />} />
       </Routes>
     </BrowserRouter>
   );
