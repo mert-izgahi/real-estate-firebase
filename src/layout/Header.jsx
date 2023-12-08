@@ -32,9 +32,14 @@ const Header = () => {
           )}
 
           {isAuthenticated && (
-            <Button variant="outline" loading={isLoading} onClick={onLogout}>
-              Logout
-            </Button>
+            <>
+              <Text component={NavLink} to="/profile" className="nav-link">
+                Profile
+              </Text>
+              <Button variant="outline" loading={isLoading} onClick={onLogout}>
+                Logout
+              </Button>
+            </>
           )}
         </Flex>
       </Flex>

@@ -5,7 +5,7 @@ import AboutPage from "./pages/AboutPage";
 import AuthPage from "./pages/AuthPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ProfilePage from "./pages/profile/ProfilePage";
-import ProtectedRoute from "./components/withAuth";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   return (
