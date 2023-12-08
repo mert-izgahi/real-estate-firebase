@@ -6,6 +6,10 @@ import { useAppContext } from "../AppContext";
 const Header = () => {
   const { isAuthenticated, logoutReducer, isLoading } = useAppContext();
 
+  const onLogout = () => {
+    logoutReducer();
+    localStorage.removeItem("user");
+  };
   return (
     <Container h={60} size="xl" component="header">
       <Flex align="center" justify="space-between">
@@ -28,7 +32,7 @@ const Header = () => {
           )}
 
           {isAuthenticated && (
-            <Button variant="outline" loading={isLoading} onClick={logoutReducer}>
+            <Button variant="outline" loading={isLoading} onClick={onLogout}>
               Logout
             </Button>
           )}
