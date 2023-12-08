@@ -4,10 +4,7 @@ import {
   AspectRatio,
   Box,
   Checkbox,
-  Container,
   Image,
-  SimpleGrid,
-  Stack,
 } from "@mantine/core";
 import authImage from "../assets/auth-image.jpg";
 import LoginForm from "../forms/LoginForm";
@@ -18,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 const AuthPage = () => {
   const [isMember, toggle] = useToggle([true, false]);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     
